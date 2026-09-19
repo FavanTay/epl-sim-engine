@@ -1,0 +1,206 @@
+---
+title: "Premier League Season Forecast"
+subtitle: "Matchweek `r params$matchweek` &middot; generated `r params$run_date`"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 2
+    theme: cosmo
+    page-layout: full
+    fig-align: center
+execute:
+  echo: false
+  warning: false
+  message: false
+params:
+  rds: "output/simulation.rds"
+  upcoming_csv: "output/upcoming_fixtures.csv"
+  output_dir: "output"
+  matchweek: 0
+  run_date: ""
+---
+
+```{r setup}
+suppressPackageStartupMessages({
+  library(dplyr); library(tidyr); library(knitr); library(kableExtra)
+})
+for (f in sort(list.files("R", pattern = "\\.R$", full.names = TRUE))) source(f)
+
+run  <- readRDS(params$rds)
+fit  <- run$fit
+sim  <- run$sim
+cfg  <- run$config
+summ <- summarise_simulation(sim)
+n_teams   <- length(sim$teams)
+played    <- sum(sim$base_table$played) / 2
+remaining <- nrow(sim$fixtures)
+pct <- function(x, d = 1) sprintf(paste0("%.", d, "f%%"), x)
+
+upcoming <- if (file.exists(params$upcoming_csv)) readr::read_csv(params$upcoming_csv, show_col_types = FALSE) else NULL
+backtest <- if (file.exists(file.path(params$output_dir, "backtest_summary.csv")))
+  readr::read_csv(file.path(params$output_dir, "backtest_summary.csv"), show_col_types = FALSE) else NULL
+```
+
+```{=html}
+<style>
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 1em 0 1.5em; }
+.kpi { border: 1px solid #dee2e6; border-radius: 8px; padding: 12px 14px; background: #f8f9fa; }
+.kpi .label { font-size: 0.78em; color: #6c757d; text-transform: uppercase; letter-spacing: .04em; }
+.kpi .value { font-size: 1.45em; font-weight: 600; margin-top: 2px; }
+.kpi .sub { font-size: 0.85em; color: #495057; }
+.low-data { color: #b45309; font-weight: 600; }
+</style>
+```
+
+## Executive summary
+
+```{r kpis, results="asis"}
+title_fav <- summ %>% slice_max(p_title, n = 1)
+title_2nd <- summ %>% arrange(desc(p_title)) %>% slice(2)
+top4_locks <- summ %>% filter(p_top4 >= 90) %>% pull(team)
+rel_fav <- summ %>% slice_max(p_relegation, n = 1)
+rel_battle <- summ %>% filter(p_relegation >= 20) %>% arrange(desc(p_relegation)) %>% pull(team)
+low <- summ %>% filter(low_data) %>% pull(team)
+
+kpi <- function(label, value, sub = "") sprintf(
+  '<div class="kpi"><div class="label">%s</div><div class="value">%s</div><div class="sub">%s</div></div>',
+  label, value, sub)
+cat('<div class="kpi-grid">',
+  kpi("Title favourite", title_fav$team, sprintf("%s &middot; next %s %s", pct(title_fav$p_title), title_2nd$team, pct(title_2nd$p_title))),
+  kpi("Top-4 near-certain (&ge;90%)", if (length(top4_locks)) paste(top4_locks, collapse = ", ") else "none yet", ""),
+  kpi("Relegation favourite", rel_fav$team, sprintf("%s &middot; %d teams &ge;20%%", pct(rel_fav$p_relegation), length(rel_battle))),
+  kpi("Season progress", sprintf("%d / 380", played), sprintf("%d fixtures remaining", remaining)),
+  kpi("Simulations", format(sim$n_sims, big.mark = ","), sprintf("%d rating draws", sim$param_draws)),
+  kpi("Model", sprintf("Home adv &times;%.2f", exp(fit$home)), sprintf("&rho; = %.3f &middot; %.0f effective matches", fit$rho, fit$eff_matches)),
+  '</div>')
+
+if (length(low)) cat(sprintf(
+  '<p><span class="low-data">&#9888; Low-data teams: %s.</span> Their ratings rest on fewer than 10 effective matches, so their tail probabilities (title, relegation) are wide and will tighten as the season progresses.</p>',
+  paste(low, collapse = ", ")))
+```
+
+## Season forecast
+
+Expected points with a 90% interval (5th–95th percentile across simulated seasons). Probabilities are the share of simulated seasons in which each outcome occurred.
+
+```{r forecast-table}
+tbl <- summ %>%
+  transmute(
+    Team = ifelse(low_data, paste0(team, " &#9888;"), team),
+    P = played, Pts = current_pts,
+    `Exp. pts` = sprintf("%.1f", exp_pts),
+    `90% interval` = sprintf("%d &ndash; %d", round(pts_p05), round(pts_p95)),
+    `Exp. pos` = sprintf("%.1f", exp_pos),
+    Title = pct(p_title), `Top 4` = pct(p_top4), `Top 6` = pct(p_top6),
+    Relegation = pct(p_relegation),
+    `Eff. matches` = sprintf("%.0f", eff_matches)
+  )
+kable(tbl, format = "html", escape = FALSE, align = c("l", rep("r", ncol(tbl) - 1))) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = TRUE, font_size = 13) %>%
+  row_spec(which(summ$low_data), color = "#b45309") %>%
+  row_spec(which(seq_len(n_teams) == 4), extra_css = "border-bottom: 2px solid #2166ac;") %>%
+  row_spec(which(seq_len(n_teams) == n_teams - 3), extra_css = "border-bottom: 2px solid #b2182b;")
+```
+
+Blue line: Champions League places. Red line: relegation zone. &#9888; marks low-data teams.
+
+## Upcoming fixtures
+
+```{r upcoming, results="asis"}
+if (!is.null(upcoming) && nrow(upcoming) > 0) {
+  has_mkt <- "mkt_home" %in% names(upcoming) && any(!is.na(upcoming$mkt_home))
+  cat("Model probabilities for the next round. ",
+      if (has_mkt) "Market = de-vigged Bet365 pre-match odds, for comparison. " else "",
+      "Expected goals are &lambda; (home) and &mu; (away).\n\n")
+  u <- upcoming %>%
+    transmute(
+      Date = format(as.Date(date), "%a %d %b"),
+      Fixture = sprintf("%s v %s", home, away),
+      `xG (H&ndash;A)` = sprintf("%.2f &ndash; %.2f", lambda, mu),
+      `Home` = pct(100 * p_home, 0), `Draw` = pct(100 * p_draw, 0), `Away` = pct(100 * p_away, 0),
+      `Likely score` = sprintf("%d&ndash;%d", ml_home_goals, ml_away_goals),
+      `Mkt H` = if (has_mkt) ifelse(is.na(mkt_home), "", pct(100 * mkt_home, 0)) else NULL,
+      `Mkt D` = if (has_mkt) ifelse(is.na(mkt_draw), "", pct(100 * mkt_draw, 0)) else NULL,
+      `Mkt A` = if (has_mkt) ifelse(is.na(mkt_away), "", pct(100 * mkt_away, 0)) else NULL
+    )
+  print(kable(u, format = "html", escape = FALSE) %>%
+          kable_styling(bootstrap_options = c("striped", "condensed"), full_width = TRUE, font_size = 13))
+} else {
+  cat("No dated upcoming-fixture file was available for this run (the simulation derives the remaining ",
+      "schedule from unplayed pairings, which has no dates). The ten closest-to-even remaining fixtures ",
+      "are shown instead.\n\n")
+  u <- sim$fixtures %>%
+    mutate(edge = abs(p_home - p_away)) %>% arrange(edge) %>% slice_head(n = 10) %>%
+    transmute(Fixture = sprintf("%s v %s", home, away),
+              `xG (H&ndash;A)` = sprintf("%.2f &ndash; %.2f", lambda, mu),
+              Home = pct(100 * p_home, 0), Draw = pct(100 * p_draw, 0), Away = pct(100 * p_away, 0))
+  print(kable(u, format = "html", escape = FALSE) %>%
+          kable_styling(bootstrap_options = c("striped", "condensed"), full_width = TRUE, font_size = 13))
+}
+```
+
+## Final-position probabilities
+
+```{r heatmap, out.width="100%"}
+knitr::include_graphics(file.path(params$output_dir, "position_heatmap.png"))
+```
+
+## Points distributions
+
+```{r ridges, out.width="100%"}
+knitr::include_graphics(file.path(params$output_dir, "points_distribution.png"))
+```
+
+## Title race and relegation
+
+::: {layout-ncol=2}
+```{r title-plot, out.width="100%"}
+knitr::include_graphics(file.path(params$output_dir, "title_race.png"))
+```
+
+```{r relegation-plot, out.width="100%"}
+knitr::include_graphics(file.path(params$output_dir, "relegation.png"))
+```
+:::
+
+## Team ratings
+
+Attack and defence are multipliers on the league-average goal rate (defence below 1 = concedes fewer than average). Standard deviations are from the fitted model's approximate posterior; large values mean the rating is still uncertain.
+
+```{r ratings}
+unc <- rating_uncertainty(fit)
+st  <- strength_table(fit, teams = sim$teams) %>%
+  left_join(unc, by = "team") %>%
+  transmute(Team = team,
+            Attack = sprintf("%.2f &plusmn; %.2f", attack_mult, attack_sd),
+            Defence = sprintf("%.2f &plusmn; %.2f", defence_mult, defence_sd),
+            `Net rating` = sprintf("%+.2f", net_rating),
+            `Eff. matches` = sprintf("%.0f", eff_matches))
+kable(st, format = "html", escape = FALSE, align = c("l", "r", "r", "r", "r")) %>%
+  kable_styling(bootstrap_options = c("striped", "condensed"), full_width = FALSE, font_size = 13)
+```
+
+## Model validation
+
+```{r backtest, results="asis"}
+if (!is.null(backtest)) {
+  cat("Rolling-origin backtest on the two previous seasons: each week's matches were forecast from a model fitted only on earlier data, and scored against the actual result. Lower log-loss is better; the bookmaker row is the de-vigged closing line.\n\n")
+  b <- backtest %>%
+    transmute(Model = model, Matches = n, `Log-loss` = sprintf("%.4f", log_loss),
+              Brier = sprintf("%.4f", brier),
+              `vs market` = if ("vs_bookmaker" %in% names(backtest)) sprintf("%+.4f", vs_bookmaker) else NULL)
+  print(kable(b, format = "html") %>%
+          kable_styling(bootstrap_options = c("striped", "condensed"), full_width = FALSE, font_size = 13))
+} else {
+  cat("No backtest summary found in the output directory. Run `Rscript run_backtest.R` to generate one.\n")
+}
+```
+
+## Methodology
+
+- **Goal model:** Dixon-Coles (1997) bivariate Poisson with a low-score dependence correction (&rho;). Each team has an attack and a defence rating; home advantage is a fitted parameter.
+- **Recent form:** matches are weighted by exp(&minus;&xi; &times; days ago), &xi; = `r cfg$xi` per day, so a result loses half its weight after about `r round(log(2) / cfg$xi / 30)` months.
+- **Simulation:** every remaining fixture is sampled from the exact score-probability matrix. `r format(sim$n_sims, big.mark = ",")` seasons were simulated under `r sim$param_draws` rating vectors drawn from the model's approximate posterior, so teams with little data carry wider uncertainty.
+- **Tie-breaks:** points, then goal difference, then goals scored.
+- **Data:** football-data.co.uk results, seasons `r paste(cfg$seasons, collapse = ", ")`.

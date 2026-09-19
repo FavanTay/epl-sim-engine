@@ -1,0 +1,401 @@
+team,position,prob
+Arsenal,1,0.5192
+Arsenal,2,0.2847
+Arsenal,3,0.1127
+Arsenal,4,0.0409
+Arsenal,5,0.0201
+Arsenal,6,0.0106
+Arsenal,7,0.0046
+Arsenal,8,0.004
+Arsenal,9,0.001
+Arsenal,10,9e-4
+Arsenal,11,3e-4
+Arsenal,12,4e-4
+Arsenal,13,5e-4
+Arsenal,14,1e-4
+Arsenal,15,0
+Arsenal,16,0
+Arsenal,17,0
+Arsenal,18,0
+Arsenal,19,0
+Arsenal,20,0
+Man City,1,0.3246
+Man City,2,0.3647
+Man City,3,0.1526
+Man City,4,0.0679
+Man City,5,0.0401
+Man City,6,0.0213
+Man City,7,0.012
+Man City,8,0.0054
+Man City,9,0.0053
+Man City,10,0.003
+Man City,11,0.0013
+Man City,12,0.001
+Man City,13,7e-4
+Man City,14,0
+Man City,15,1e-4
+Man City,16,0
+Man City,17,0
+Man City,18,0
+Man City,19,0
+Man City,20,0
+Leeds,1,0.0078
+Leeds,2,0.0245
+Leeds,3,0.067
+Leeds,4,0.0795
+Leeds,5,0.0766
+Leeds,6,0.08
+Leeds,7,0.0811
+Leeds,8,0.0736
+Leeds,9,0.0746
+Leeds,10,0.0647
+Leeds,11,0.0694
+Leeds,12,0.0641
+Leeds,13,0.0538
+Leeds,14,0.0502
+Leeds,15,0.0427
+Leeds,16,0.036
+Leeds,17,0.0304
+Leeds,18,0.0154
+Leeds,19,0.0069
+Leeds,20,0.0017
+Hull,1,0.094
+Hull,2,0.1
+Hull,3,0.1162
+Hull,4,0.0838
+Hull,5,0.0688
+Hull,6,0.0596
+Hull,7,0.0548
+Hull,8,0.0425
+Hull,9,0.044
+Hull,10,0.0414
+Hull,11,0.0383
+Hull,12,0.0342
+Hull,13,0.0359
+Hull,14,0.0332
+Hull,15,0.0327
+Hull,16,0.029
+Hull,17,0.0317
+Hull,18,0.0325
+Hull,19,0.0256
+Hull,20,0.0018
+Brighton,1,0.0099
+Brighton,2,0.0392
+Brighton,3,0.0832
+Brighton,4,0.1011
+Brighton,5,0.0998
+Brighton,6,0.0973
+Brighton,7,0.0924
+Brighton,8,0.081
+Brighton,9,0.0747
+Brighton,10,0.0659
+Brighton,11,0.0605
+Brighton,12,0.0475
+Brighton,13,0.0414
+Brighton,14,0.0338
+Brighton,15,0.0276
+Brighton,16,0.0221
+Brighton,17,0.0136
+Brighton,18,0.0072
+Brighton,19,0.0016
+Brighton,20,2e-4
+Chelsea,1,0.0109
+Chelsea,2,0.0392
+Chelsea,3,0.0874
+Chelsea,4,0.1098
+Chelsea,5,0.1072
+Chelsea,6,0.1008
+Chelsea,7,0.0914
+Chelsea,8,0.0842
+Chelsea,9,0.0686
+Chelsea,10,0.0661
+Chelsea,11,0.0553
+Chelsea,12,0.047
+Chelsea,13,0.0409
+Chelsea,14,0.0297
+Chelsea,15,0.0255
+Chelsea,16,0.0161
+Chelsea,17,0.0115
+Chelsea,18,0.0047
+Chelsea,19,0.0037
+Chelsea,20,0
+Brentford,1,0.0043
+Brentford,2,0.0183
+Brentford,3,0.0558
+Brentford,4,0.0789
+Brentford,5,0.0847
+Brentford,6,0.0887
+Brentford,7,0.0794
+Brentford,8,0.0829
+Brentford,9,0.075
+Brentford,10,0.079
+Brentford,11,0.0654
+Brentford,12,0.0634
+Brentford,13,0.0547
+Brentford,14,0.0502
+Brentford,15,0.0435
+Brentford,16,0.0324
+Brentford,17,0.0235
+Brentford,18,0.0153
+Brentford,19,0.0041
+Brentford,20,5e-4
+Liverpool,1,0.017
+Liverpool,2,0.0633
+Liverpool,3,0.1348
+Liverpool,4,0.1326
+Liverpool,5,0.1125
+Liverpool,6,0.0969
+Liverpool,7,0.0894
+Liverpool,8,0.0729
+Liverpool,9,0.0583
+Liverpool,10,0.0513
+Liverpool,11,0.041
+Liverpool,12,0.0365
+Liverpool,13,0.0283
+Liverpool,14,0.0207
+Liverpool,15,0.0169
+Liverpool,16,0.013
+Liverpool,17,0.0083
+Liverpool,18,0.0051
+Liverpool,19,0.0011
+Liverpool,20,1e-4
+Everton,1,0.0011
+Everton,2,0.0079
+Everton,3,0.0204
+Everton,4,0.0312
+Everton,5,0.0477
+Everton,6,0.0521
+Everton,7,0.0621
+Everton,8,0.0677
+Everton,9,0.0725
+Everton,10,0.0742
+Everton,11,0.0819
+Everton,12,0.0828
+Everton,13,0.0905
+Everton,14,0.0753
+Everton,15,0.0734
+Everton,16,0.0599
+Everton,17,0.0468
+Everton,18,0.0373
+Everton,19,0.0128
+Everton,20,0.0024
+Ipswich,1,0
+Ipswich,2,0
+Ipswich,3,2e-4
+Ipswich,4,5e-4
+Ipswich,5,0.0011
+Ipswich,6,0.002
+Ipswich,7,0.0016
+Ipswich,8,0.0036
+Ipswich,9,0.0045
+Ipswich,10,0.0071
+Ipswich,11,0.0092
+Ipswich,12,0.0115
+Ipswich,13,0.0163
+Ipswich,14,0.0244
+Ipswich,15,0.035
+Ipswich,16,0.0522
+Ipswich,17,0.089
+Ipswich,18,0.1652
+Ipswich,19,0.4497
+Ipswich,20,0.1269
+Nott'm Forest,1,0.002
+Nott'm Forest,2,0.0114
+Nott'm Forest,3,0.0313
+Nott'm Forest,4,0.0442
+Nott'm Forest,5,0.0594
+Nott'm Forest,6,0.0754
+Nott'm Forest,7,0.0731
+Nott'm Forest,8,0.0794
+Nott'm Forest,9,0.0804
+Nott'm Forest,10,0.0785
+Nott'm Forest,11,0.0797
+Nott'm Forest,12,0.0805
+Nott'm Forest,13,0.0687
+Nott'm Forest,14,0.0661
+Nott'm Forest,15,0.0587
+Nott'm Forest,16,0.0444
+Nott'm Forest,17,0.0331
+Nott'm Forest,18,0.024
+Nott'm Forest,19,0.0086
+Nott'm Forest,20,0.0011
+Newcastle,1,0.0029
+Newcastle,2,0.0109
+Newcastle,3,0.0296
+Newcastle,4,0.0491
+Newcastle,5,0.0597
+Newcastle,6,0.0713
+Newcastle,7,0.0737
+Newcastle,8,0.0771
+Newcastle,9,0.0859
+Newcastle,10,0.0776
+Newcastle,11,0.0803
+Newcastle,12,0.0727
+Newcastle,13,0.0722
+Newcastle,14,0.0653
+Newcastle,15,0.058
+Newcastle,16,0.0476
+Newcastle,17,0.0363
+Newcastle,18,0.0218
+Newcastle,19,0.0069
+Newcastle,20,0.0011
+Man United,1,0.0038
+Man United,2,0.0179
+Man United,3,0.0498
+Man United,4,0.0673
+Man United,5,0.0763
+Man United,6,0.0752
+Man United,7,0.0774
+Man United,8,0.0837
+Man United,9,0.079
+Man United,10,0.074
+Man United,11,0.0691
+Man United,12,0.0668
+Man United,13,0.0653
+Man United,14,0.0553
+Man United,15,0.0475
+Man United,16,0.0403
+Man United,17,0.0278
+Man United,18,0.0173
+Man United,19,0.0056
+Man United,20,6e-4
+Sunderland,1,2e-4
+Sunderland,2,0.002
+Sunderland,3,0.0059
+Sunderland,4,0.0143
+Sunderland,5,0.0199
+Sunderland,6,0.0237
+Sunderland,7,0.0315
+Sunderland,8,0.0377
+Sunderland,9,0.0439
+Sunderland,10,0.053
+Sunderland,11,0.0609
+Sunderland,12,0.0681
+Sunderland,13,0.0756
+Sunderland,14,0.0864
+Sunderland,15,0.097
+Sunderland,16,0.109
+Sunderland,17,0.1113
+Sunderland,18,0.0974
+Sunderland,19,0.0534
+Sunderland,20,0.0088
+Bournemouth,1,0.0012
+Bournemouth,2,0.0094
+Bournemouth,3,0.0312
+Bournemouth,4,0.0567
+Bournemouth,5,0.0623
+Bournemouth,6,0.0651
+Bournemouth,7,0.0754
+Bournemouth,8,0.0757
+Bournemouth,9,0.0789
+Bournemouth,10,0.0794
+Bournemouth,11,0.0783
+Bournemouth,12,0.0731
+Bournemouth,13,0.0704
+Bournemouth,14,0.0662
+Bournemouth,15,0.0561
+Bournemouth,16,0.0519
+Bournemouth,17,0.037
+Bournemouth,18,0.0221
+Bournemouth,19,0.0086
+Bournemouth,20,0.001
+Crystal Palace,1,2e-4
+Crystal Palace,2,5e-4
+Crystal Palace,3,0.0032
+Crystal Palace,4,0.0054
+Crystal Palace,5,0.01
+Crystal Palace,6,0.0141
+Crystal Palace,7,0.0169
+Crystal Palace,8,0.025
+Crystal Palace,9,0.032
+Crystal Palace,10,0.0377
+Crystal Palace,11,0.0425
+Crystal Palace,12,0.0553
+Crystal Palace,13,0.0636
+Crystal Palace,14,0.0832
+Crystal Palace,15,0.0973
+Crystal Palace,16,0.1161
+Crystal Palace,17,0.137
+Crystal Palace,18,0.1505
+Crystal Palace,19,0.0906
+Crystal Palace,20,0.0189
+Tottenham,1,0
+Tottenham,2,3e-4
+Tottenham,3,0.001
+Tottenham,4,0.0026
+Tottenham,5,0.0068
+Tottenham,6,0.008
+Tottenham,7,0.0112
+Tottenham,8,0.0181
+Tottenham,9,0.0227
+Tottenham,10,0.0282
+Tottenham,11,0.0381
+Tottenham,12,0.0485
+Tottenham,13,0.0578
+Tottenham,14,0.0765
+Tottenham,15,0.0991
+Tottenham,16,0.122
+Tottenham,17,0.1513
+Tottenham,18,0.1713
+Tottenham,19,0.1158
+Tottenham,20,0.0207
+Fulham,1,0
+Fulham,2,9e-4
+Fulham,3,0.0038
+Fulham,4,0.0076
+Fulham,5,0.0091
+Fulham,6,0.0154
+Fulham,7,0.0223
+Fulham,8,0.026
+Fulham,9,0.0342
+Fulham,10,0.0416
+Fulham,11,0.0487
+Fulham,12,0.0594
+Fulham,13,0.0734
+Fulham,14,0.0889
+Fulham,15,0.0989
+Fulham,16,0.1196
+Fulham,17,0.1286
+Fulham,18,0.1276
+Fulham,19,0.0796
+Fulham,20,0.0144
+Aston Villa,1,7e-4
+Aston Villa,2,0.0049
+Aston Villa,3,0.0135
+Aston Villa,4,0.0258
+Aston Villa,5,0.0364
+Aston Villa,6,0.0414
+Aston Villa,7,0.0475
+Aston Villa,8,0.0573
+Aston Villa,9,0.0616
+Aston Villa,10,0.0741
+Aston Villa,11,0.0761
+Aston Villa,12,0.0841
+Aston Villa,13,0.0862
+Aston Villa,14,0.0893
+Aston Villa,15,0.0813
+Aston Villa,16,0.0752
+Aston Villa,17,0.0636
+Aston Villa,18,0.0493
+Aston Villa,19,0.0277
+Aston Villa,20,0.004
+Coventry,1,2e-4
+Coventry,2,0
+Coventry,3,4e-4
+Coventry,4,8e-4
+Coventry,5,0.0015
+Coventry,6,0.0011
+Coventry,7,0.0022
+Coventry,8,0.0022
+Coventry,9,0.0029
+Coventry,10,0.0023
+Coventry,11,0.0037
+Coventry,12,0.0031
+Coventry,13,0.0038
+Coventry,14,0.0052
+Coventry,15,0.0087
+Coventry,16,0.0132
+Coventry,17,0.0192
+Coventry,18,0.036
+Coventry,19,0.0977
+Coventry,20,0.7958
